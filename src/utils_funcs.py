@@ -35,17 +35,19 @@ class EarlyStopping:
         self.tolerance = tolerance
         self.delta = delta
         self.counter = 0
-        self.best_loss = None
+        self.best_loss = float('inf')
 
     def __call__(self, val_loss):
-        if self.best_loss is None:
+        if val_loss < self.best_loss - self.delta:
+            # If the validation loss decreased by a significant amount,
+            # update best_loss and reset counter
             self.best_loss = val_loss
-        elif val_loss > self.best_loss + self.delta:
+            self.counter = 0
+        else:
+            # If the validation loss did not decrease significantly,
+            # increment the counter
             self.counter += 1
             if self.counter >= self.tolerance:
                 return True
-        else:
-            self.best_loss = val_loss
-            self.counter = 0
         return False
 

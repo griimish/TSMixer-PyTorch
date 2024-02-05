@@ -17,7 +17,7 @@ class ETTh1TimeSeries(Dataset):
         """
         Returns the total number of samples in the dataset.
         """
-        return len(self.ds) - self.seq_len - self.pred_len
+        return len(self.ds) - self.seq_len - self.pred_len + 1
 
     def __getitem__(self, idx):
         """
